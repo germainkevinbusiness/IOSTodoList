@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  MainView.swift
 //  TodoList
 //
 //  Created by Kevin Germain on 23/10/2023.
@@ -7,18 +7,33 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct MainView: View {
+    
+    @StateObject var viewModel = MainViewViewModel()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        if viewModel.isSignedIn, !viewModel.currentUserId.isEmpty {
+            accountView
+        } else {
+            LoginView()
         }
-        .padding()
+    }
+    
+    @ViewBuilder
+    private var accountView: some View {
+        TabView {
+            TodoListView(userId: viewModel.currentUserId)
+                .tabItem {
+                    Label("Home", systemImage: "house")
+                }
+            ProfileView()
+                .tabItem {
+                    Label("Profile", systemImage: "person.circle")
+                }
+        }
     }
 }
 
 #Preview {
-    ContentView()
+    MainView()
 }

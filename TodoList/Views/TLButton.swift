@@ -7,12 +7,33 @@
 
 import SwiftUI
 
-struct NewItemView: View {
+struct TLButton: View {
+    
+    let title: String
+    let backgroundColor: Color
+    let titleColor: Color
+    let action: () -> Void
+    
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Button(action: {action()},
+               label: {
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundColor(backgroundColor)
+                Text(title)
+                    .foregroundColor(titleColor).bold()
+            }
+        }).padding()
     }
 }
 
 #Preview {
-    NewItemView()
+    TLButton(
+        title: "Log in",
+        backgroundColor: .blue,
+        titleColor: .white
+    ){
+        
+    }
 }
